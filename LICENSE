@@ -1,0 +1,140 @@
+﻿# LinkScope BPU — UART Analyzer (v0.1.0)
+
+**LinkScope** is a lightweight UART stream analyzer built around an ESP32-S3 + a host viewer.
+If a device can output **TX**, you can plug it into **ESP32-S3 RX** and analyze the stream.
+
+This repo includes:
+- ESP32-S3 firmware (Arduino)
+- Python host viewer (source)
+- Windows prebuilt EXE (x64)
+- Example sender (ESP32-WROOM "HELLO" TX demo)
+
+---
+
+## What you can do with it
+
+### 1) Debug UART when things go wrong (real-world cases)
+- **Random garbage / broken text** → baud mismatch, noise, level mismatch
+- **Intermittent missing messages** → timing, buffer overflow, sender pacing
+- **Protocol framing bugs** → start/magic detection, length mismatch
+- **Data integrity issues** → CRC fail, partial frame, line corruption
+- **Sequence gaps** → dropped frames, buffer overruns, stream interruption
+
+### 2) Use it as a universal "TX-only" analyzer
+Works for targets like:
+- STM32 (UART TX)
+- nRF52 / Nordic SoC (UART TX)
+- ESP32 / ESP8266 (UART TX)
+- Arduino / AVR boards
+- Any MCU / module that can output UART TX
+
+You only need:
+- Target **TX**
+- Target **GND**
+
+---
+
+## Key features (v0.1.0)
+
+### Live monitoring UI
+- Throughput (bytes/s)
+- RAW inspector (hexdump + ASCII)
+- Parsed frame table (time / offset / magic / type / seq / len / crc)
+
+### Auto Frame Decoder (special part)
+The viewer scans the stream and automatically detects frames using:
+- **MAGIC** byte(s) (e.g. 0xB2)
+- header fields like **type / seq / len**
+- **CRC check** (OK / FAIL)
+- shows decoded payload hexdump immediately
+
+### Health / stats
+- uart baud, uptime
+- rx bytes total, rx chunks
+- seq gap counter
+- overflow / overrun counters
+- max chunk observed, bytes/s
+
+---
+
+## Hardware hookup
+
+### Wiring
+- Target **TX**  -> ESP32-S3 **RX**
+- Target **GND** -> ESP32-S3 **GND**
+
+### Voltage note
+ESP32-S3 UART is **3.3V**.
+If your target TX is **5V**, use a level shifter or a resistor divider.
+
+---
+
+## Quick start (Windows)
+
+1) Flash the ESP32-S3 firmware  
+   irmware/esp32_s3/LinkScope_UART_Analyzer_v0.1.0_esp32_s3.ino
+
+2) Run the viewer  
+   eleases/LinkScope_UART_Analyzer_v0.1.0_windows_x64.exe
+
+3) Select COM port / baud and connect
+
+4) Connect target TX->S3 RX, GND->GND and observe frames
+
+---
+
+## Example: WROOM TX -> S3 RX (HELLO demo)
+
+Use the example sender:
+- examples/hello_demo_wroom_tx
+
+It repeatedly sends "HELLO" from WROOM TX, captured by S3 RX and decoded in the viewer.
+
+---
+
+## Repo layout
+- irmware/esp32_s3/ : ESP32-S3 analyzer firmware (Arduino)
+- host/             : Python viewer source
+- examples/         : demo sender(s)
+- eleases/         : prebuilt Windows exe
+- docs/             : screenshots / notes
+
+---
+
+## Build the Windows EXE (optional)
+
+### Create venv & install deps
+`powershell
+python -m venv venv
+.\venv\Scripts\activate
+pip install pyserial matplotlib pyinstaller
+pyinstaller --onefile --noconsole --name LinkScope_UART_Analyzer host\LinkScope_UART_Analyzer_v0.1.0.py
+
+---
+
+## 2) 라이선스도 지금 넣는 게 좋아 (MIT 추천)
+(선택이지만 강추) MIT로 갈 거면:
+
+`powershell
+@"
+MIT License
+
+Copyright (c) 2026
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

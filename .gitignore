@@ -1,0 +1,15 @@
+﻿# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build outputs
+dist/
+build/
+*.spec
+
+# Windows
+*.log
+.DS_Store
+Thumbs.db
