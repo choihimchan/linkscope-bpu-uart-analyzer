@@ -1,4 +1,4 @@
-﻿# LinkScope BPU UART Analyzer
+# LinkScope BPU UART Analyzer
 
 High-speed UART analyzer using ESP32-S3 + PC GUI.
 
@@ -25,26 +25,6 @@ Real-time capture, framing, statistics, and visualization for embedded debugging
 
 ---
 
-## Quick Setup (Beginner Friendly)
-
-This tool works by tapping into your target MCU's UART TX line.
-
-Just connect:
-
-Target MCU TX  --->  ESP32-S3 GPIO18 (RX)  
-Target MCU GND --->  ESP32-S3 GND
-
-Supported targets:
-- STM32
-- ESP32 / ESP8266
-- NRF52 / NRF53
-- RP2040
-- Arduino
-- Custom MCUs
-
-No firmware modification is required on the target device.
-Simply transmit UART data and monitor it on PC.
-
 ## System Architecture
 
 [ Target MCU TX ] --> [ ESP32-S3 RX ] --> USB --> [ PC Analyzer ]
@@ -53,6 +33,8 @@ Simply transmit UART data and monitor it on PC.
 
 ## Supported Devices
 
+Any device with UART TX:
+
 - STM32
 - ESP32 / ESP8266
 - NRF52 / NRF53
@@ -62,70 +44,170 @@ Simply transmit UART data and monitor it on PC.
 
 ---
 
-## Hardware Connection
+## Getting Started (Beginner Guide)
 
-Target TX -> GPIO18  
-Target GND -> GND  
-
----
-
-## Firmware
-
-Location:
-
-firmware/esp32_s3/
-
-Baud rate: 921600
+This guide explains how to use LinkScope UART Analyzer step-by-step.
 
 ---
 
-## PC Application
+### 1. Flash Firmware to ESP32-S3
 
-### Windows EXE
+1. Open Arduino IDE
+2. Open firmware file:
 
-releases/LinkScope_UART_Analyzer_v0.1.0_windows_x64.exe
+   firmware/esp32_s3/LinkScope_UART_Analyzer_v0.1.0_esp32_s3.ino
 
-### Run from Source
+3. Select board:
 
-pip install pyserial matplotlib  
+   Tools → Board → ESP32 Arduino → ESP32S3 Dev Module
+
+4. Select COM port
+5. Click Upload
+
+Wait until upload is finished.
+
+---
+
+### 2. Hardware Connection
+
+Connect your target MCU to ESP32-S3:
+
+Target MCU TX  --->  ESP32-S3 GPIO18 (RX)  
+Target MCU GND --->  ESP32-S3 GND  
+
+(Default RX pin: GPIO18)
+
+Examples:
+
+STM32 TX → GPIO18  
+ESP32 TX → GPIO18  
+Arduino TX → GPIO18  
+
+No firmware change needed on target MCU.
+Just connect TX line.
+
+---
+
+### 3. Run PC Analyzer (Windows)
+
+1. Go to:
+
+   releases/
+
+2. Run:
+
+   LinkScope_UART_Analyzer_v0.1.0_windows_x64.exe
+
+No installation required.
+
+---
+
+### 4. Select Serial Port
+
+1. Plug ESP32-S3 into PC
+2. Check COM port in Windows Device Manager
+3. In Analyzer:
+
+   - Click Refresh
+   - Select COM port
+   - Set Baud Rate (default: 921600)
+   - Click Connect
+
+If connected, status will show "Connected".
+
+---
+
+### 5. Start Monitoring
+
+After connection:
+
+Press:
+
+S → Start  
+P → Stop  
+C → Clear  
+
+Or use GUI buttons.
+
+UART data will appear in real-time.
+
+---
+
+### 6. Baud Rate Setting
+
+Make sure target MCU baud matches analyzer.
+
+Example (115200):
+
+Type:
+
+B115200
+
+Press Enter, then press S.
+
+---
+
+### 7. Run from Python (Optional)
+
+If you want to run from source:
+
+```bash
+pip install pyserial matplotlib
 python host/LinkScope_UART_Analyzer_v0.1.0.py
+```
 
 ---
 
-## Example
+### 8. Example Project
+
+Example firmware:
 
 examples/hello_demo_wroom_tx/
 
----
-
-## Commands
-
-| Key | Function |
-|-----|----------|
-| S   | Start    |
-| P   | Stop     |
-| C   | Clear    |
-| Bxxxx | Set baud |
-
-Example:
-
-B921600  
-S
+Use this to test basic UART transmission.
 
 ---
 
-## Beginner Guide (Usage)
+### 9. Troubleshooting
 
-📘 Step-by-step guide:
+No data?
 
-➡️ [docs/usage.md](docs/usage.md)
+Check:
+
+- TX/GND wiring
+- Correct COM port
+- Baud rate match
+- ESP32-S3 firmware uploaded
+- USB cable supports data
+
+If still not working, open an Issue.
+
+---
+
+## Documentation
+
+Beginner guide:
+
+docs/usage.md
+
+---
+
+## Use Cases
+
+- UART data loss debugging
+- Throughput benchmarking
+- Protocol reverse engineering
+- Production testing
+- Factory logging
 
 ---
 
 ## Build Windows EXE
 
-pip install pyinstaller  
+```bash
+pip install pyinstaller
 pyinstaller --onefile host/LinkScope_UART_Analyzer_v0.1.0.py
+```
 
 ---
 
