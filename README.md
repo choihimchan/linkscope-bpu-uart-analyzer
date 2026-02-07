@@ -24,6 +24,18 @@ Real-time capture, framing, statistics, and visualization for embedded debugging
 6. Press Start
 
 
+## Important (Windows): Close Serial Monitor / Other Serial Apps
+
+Only one program can use a COM port at a time.
+
+✅ Before running LinkScope, **close**:
+- Arduino IDE Serial Monitor
+- PlatformIO Serial Monitor
+- PuTTY / TeraTerm
+- any other serial terminal/logging tool
+
+If the port is busy, LinkScope may fail to connect or exit immediately.
+
 ## Features
 
 - Up to 921600 baud UART capture
