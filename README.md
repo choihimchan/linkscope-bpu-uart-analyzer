@@ -14,11 +14,15 @@ Real-time capture, framing, statistics, and visualization for embedded debugging
 
 ⚡ Quick Start (1 minute)
 
-1. Flash ESP32-S3 firmware
-2. Connect TX → GPIO18
-3. Run Windows EXE
-4. Select COM port
-5. Press Start
+1. Flash firmware to ESP32-S3
+2. Connect:
+   - Target TX → GPIO18
+   - Target GND → ESP32-S3 GND
+3. Plug ESP32-S3 into USB
+4. Run Windows EXE
+5. Select COM port
+6. Press Start
+
 
 ## Features
 
