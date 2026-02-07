@@ -33,8 +33,6 @@ Real-time capture, framing, statistics, and visualization for embedded debugging
 
 ## Supported Devices
 
-Any device with UART TX:
-
 - STM32
 - ESP32 / ESP8266
 - NRF52 / NRF53
@@ -49,8 +47,6 @@ Any device with UART TX:
 Target TX -> GPIO18  
 Target GND -> GND  
 
-(Default RX: GPIO18)
-
 ---
 
 ## Firmware
@@ -59,17 +55,13 @@ Location:
 
 firmware/esp32_s3/
 
-Upload using Arduino IDE.
-
-Default baud rate:
-
-921600
+Baud rate: 921600
 
 ---
 
 ## PC Application
 
-### Windows EXE (Recommended)
+### Windows EXE
 
 releases/LinkScope_UART_Analyzer_v0.1.0_windows_x64.exe
 
@@ -88,23 +80,25 @@ examples/hello_demo_wroom_tx/
 
 ## Commands
 
-S = Start  
-P = Stop  
-C = Clear  
-Bxxxx = Set baud  
+| Key | Function |
+|-----|----------|
+| S   | Start    |
+| P   | Stop     |
+| C   | Clear    |
+| Bxxxx | Set baud |
 
 Example:
 
 B921600  
-S  
+S
 
 ---
 
-## Beginner Guide
+## Beginner Guide (Usage)
 
-See detailed usage guide here:
+📘 Step-by-step guide:
 
-docs/usage_guide.md
+➡️ [docs/usage.md](docs/usage.md)
 
 ---
 
